@@ -12,16 +12,16 @@ const DB = new InfluxDB({
 
 const writeAPI = DB.getWriteApi('', bucket)
 
-async function sendDataToInfDB(device,data){
+function sendDataToInfDB(device,data){
 	console.log('Sending to DB')
 	let points=[]
 	//let t = process.hrtime() //replace this by constant time between points
 	let t = Date.now()-100 //100 for test purpose
-	for(var i=0; i<data.length; i++){
+	for(var i=0; i<data.length; i=i+2){
 		//let timestap=Date.now()
-		let point = new Point('dummy')
-			.tag('device', device)
-			.floatField('field_1', data[i])
+		let point = new Point(device)
+			.stringField('device', device) //to be replaced by mesure stage(reveil, second)
+			.floatField('mesure', (data[i]<<8)+data[i+1])
 			.timestamp(1e6*(t+i))
 		//	.timestamp(process.hrtime(t)[1]+(1e6*(Date.now()-(30*1000))))
 		points.push(point)
@@ -30,7 +30,9 @@ async function sendDataToInfDB(device,data){
 	writeAPI.writePoints(points)
 		writeAPI
 			.close()
-			.then()
+			.then(
+				console.log("Points successfully written.")
+			)
 			.catch(err=>{
 				console.error(err)
 			})
@@ -77,21 +79,3 @@ wsServer.on('request', (request)=>{
         console.log(`** Peer ${connection.remoteAddress} disconnected **`)
     })
 })
-
-console.log(' *** DB test *** ')
-const queryAPI = DB.getQueryApi('')
-const query = `from(bucket: "${bucket}") |> range(start:-30m)`
-queryAPI.queryRows(query,{
-    next(row, tableMeta){
-        const o = tableMeta.toObject(row)
-        console.log(`${o._time} ${o._measurement} : ${o.device} -> ${o._field} = ${o._value}`)
-    },
-    error(err){
-        console.error(err)
-    },
-    complete(){
-        console.log(' *** Done query *** ')
-    }
-})
-
-

@@ -1,0 +1,21 @@
+{
+  "name": "esp_socket_server",
+  "version": "1.0.0",
+  "description": "Web Socket server for ESP32 Mesure de courant",
+  "main": "index.js",
+  "scripts": {
+    "start":"nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "esp32",
+    "websocket",
+    "influxdb"
+  ],
+  "author": "Aimé Cedric MUHOZA",
+  "license": "ISC",
+  "dependencies": {
+    "@influxdata/influxdb-client": "^1.5.0",
+    "websocket": "^1.0.31"
+  }
+}

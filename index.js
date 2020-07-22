@@ -15,20 +15,23 @@ const writeAPI = DB.getWriteApi('', bucket)
 async function sendDataToInfDB(device,data){
 	console.log('Sending to DB')
 	let points=[]
+	let t = process.hrtime() //replace this by constant time between points
 	for(var i=0; i<data.length; i++){
+		let timestap=Date.now()
 		let point = new Point('dummy')
 			.tag('device', device)
 			.floatField('field_1', data[i])
+		//	.timestamp(process.hrtime(t)[1]+(1e6*(Date.now()-(30*1000))))
 		points.push(point)
 	}
-	/*writeAPI.writePoint(point)
+	//console.log(points)
+	writeAPI.writePoints(points)
 		writeAPI
 			.close()
 			.then()
 			.catch(err=>{
 				console.error(err)
-			})*/
-//ca ne marche pas il rate des points
+			})
 }
 
 var Server = _http.createServer((req,res)=>{
@@ -50,8 +53,6 @@ var originIsAllowed = (origin)=>{
 	console.log(origin)
 	return true
 }
-
-
 
 wsServer.on('request', (request)=>{
     if(!originIsAllowed(request.origin)){
@@ -76,7 +77,7 @@ wsServer.on('request', (request)=>{
 
 console.log(' *** DB test *** ')
 const queryAPI = DB.getQueryApi('')
-const query = `from(bucket: "${bucket}") |> range(start:-24h)`
+const query = `from(bucket: "${bucket}") |> range(start:-30m)`
 queryAPI.queryRows(query,{
     next(row, tableMeta){
         const o = tableMeta.toObject(row)
@@ -89,6 +90,5 @@ queryAPI.queryRows(query,{
         console.log(' *** Done query *** ')
     }
 })
-
 
 

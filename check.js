@@ -9,7 +9,7 @@ const DB = new InfluxDB({
 
 const writeAPI = DB.getWriteApi('', bucket)
 
-async function sendDataToInfDB(device){
+function sendDataToInfDB(device){
 	console.log('Sending to DB')
 	let points=[]
 	//let t = process.hrtime() //replace this by constant time between points

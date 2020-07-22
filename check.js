@@ -14,7 +14,7 @@ async function sendDataToInfDB(device){
 	let points=[]
 	//let t = process.hrtime() //replace this by constant time between points
 	let t = Date.now()-100 //100 for test purpose
-	for(var i=0; i<10; i++){
+	for(var i=0; i<100; i++){
 		//let timestap=Date.now()
 		let point = new Point('dummy')
 			.tag('device', device)

@@ -15,16 +15,18 @@ const writeAPI = DB.getWriteApi('', bucket)
 async function sendDataToInfDB(device,data){
 	console.log('Sending to DB')
 	let points=[]
-	let t = process.hrtime() //replace this by constant time between points
+	//let t = process.hrtime() //replace this by constant time between points
+	let t = Date.now()-100 //100 for test purpose
 	for(var i=0; i<data.length; i++){
-		let timestap=Date.now()
+		//let timestap=Date.now()
 		let point = new Point('dummy')
 			.tag('device', device)
 			.floatField('field_1', data[i])
+			.timestamp(1e6*(t+i))
 		//	.timestamp(process.hrtime(t)[1]+(1e6*(Date.now()-(30*1000))))
 		points.push(point)
 	}
-	//console.log(points)
+//	console.log(points)
 	writeAPI.writePoints(points)
 		writeAPI
 			.close()
@@ -32,6 +34,7 @@ async function sendDataToInfDB(device,data){
 			.catch(err=>{
 				console.error(err)
 			})
+
 }
 
 var Server = _http.createServer((req,res)=>{

@@ -17,7 +17,7 @@ function sendDataToInfDB(device){
 	for(var i=0; i<100; i++){
 		//let timestap=Date.now()
 		let point = new Point('dummy')
-			.tag('device', device)
+            .tag('device', device)
 			.floatField('field_1', Math.random()*100)
 			.timestamp(1e6*(t+i))
 		//	.timestamp(process.hrtime(t)[1]+(1e6*(Date.now()-(30*1000))))

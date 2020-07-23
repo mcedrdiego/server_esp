@@ -7,13 +7,12 @@ const bucket = `${database}/${retentionPolicy}`
 const PORT = 8080
 const DB = new InfluxDB({
 	url:host_url, 
-    	token:`${username}:${password}`
+	token:`${username}:${password}`
 }) 
-
-const writeAPI = DB.getWriteApi('', bucket)
 
 function sendDataToInfDB(device,data){
 	console.log('Sending to DB')
+	const writeAPI = DB.getWriteApi('', bucket)
 	let points=[]
 	//let t = process.hrtime() //replace this by constant time between points
 	let t = Date.now()-100 //100 for test purpose

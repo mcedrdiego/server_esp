@@ -20,7 +20,7 @@ function sendDataToInfDB(device,data){
 		//let timestap=Date.now()
 		let point = new Point(device)
 			.stringField('device', device) //to be replaced by mesure stage(reveil, second)
-			.floatField('mesure', (data[i]<<8)+data[i+1])
+			.floatField('mesure', (data[i+1]<<8)+data[i])
 			.timestamp(1e6*(t+i))
 		//	.timestamp(process.hrtime(t)[1]+(1e6*(Date.now()-(30*1000))))
 		points.push(point)

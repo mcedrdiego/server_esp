@@ -6,4 +6,14 @@
 ## Installation
 > Clone project ...
 
-## Dependecies
+## Dependecies 
+- Nodemon
+- @influxdata/influxdb-client
+
+## Useful commands
+```shell
+	forever start /server_esp/index.js
+	forever restart /server_esp/index.js
+	forever stop /server_esp/index.js
+``
+> also uses nodemon

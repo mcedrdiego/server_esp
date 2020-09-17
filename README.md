@@ -11,9 +11,14 @@
 - @influxdata/influxdb-client
 
 ## Useful commands
+###Run app in background
+> Install forever and run the following cmds
 ```shell
-	forever start /server_esp/index.js
-	forever restart /server_esp/index.js
-	forever stop /server_esp/index.js
-``
-> also uses nodemon
+ forever start /server_esp/index.js
+ forever restart /server_esp/index.js
+ forever stop /server_esp/index.js
+```
+> Can also uses nodemon
+```shell
+ npm start
+```

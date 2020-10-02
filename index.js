@@ -14,15 +14,27 @@ function sendDataToInfDB(device, data) {
 	console.log('Sending to DB')
 	const writeAPI = DB.getWriteApi('', bucket)
 	let points = []
-	let t = Date.now() - 100 //100 for test purpose ???
+	let t = Date.now() * 1e3 //to µs
+	let ecart = 0 //ecart entre deux points en (µs)
+	/* Check if MCP or ADS from url */
+	if (device.slice(device.length - 3, device.length) == "MCP") { 
+		ecart = 7.5
+		t = t - (225 * 1e3)
+	} else { //use else if in future
+		ecart = 2325
+		t = t - (69768 * 1e3) 
+	}
+
+	device = device.substring(0, device.length - 4)  //reconstruct url
+	
 	for (var i = 0; i < data.length; i = i + 2) {
 		let point = new Point(device)
 			.stringField('device', device) //to be replaced by mesure stage(reveil, second)
 			.floatField('mesure', (data[i + 1] << 8) + data[i])
-			.timestamp(1e6 * (t + i))
+			.timestamp(1e3* (t+(i*ecart/2))) //timestamp to nanosecs
 		points.push(point)
 	}
-
+	
 	writeAPI.writePoints(points)
 	writeAPI
 		.close()
@@ -32,7 +44,6 @@ function sendDataToInfDB(device, data) {
 		.catch(err => {
 			console.error(err)
 		})
-
 }
 
 var Server = _http.createServer((req, res) => {

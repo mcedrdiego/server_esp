@@ -2,7 +2,7 @@
 var WebSocketServer = require('websocket').server
 var _http = require('http')
 const { InfluxDB, Point } = require('@influxdata/influxdb-client')
-const { username, password, database, host_url, retentionPolicy } = require('./env.js')
+const { username, password, database, host_url, retentionPolicy, Moyenne } = require('./env.js')
 const bucket = `${database}/${retentionPolicy}`
 const PORT = 8080
 const DB = new InfluxDB({
@@ -27,11 +27,17 @@ function sendDataToInfDB(device, data) {
 
 	device = device.substring(0, device.length - 4)  //reconstruct url
 	
-	for (var i = 0; i < data.length; i = i + 2) {
+	for (var i = 0; i < data.length; i = i + (2*Moyenne)) {
+		let j = i
+		let value = 0
+		while(j-i < 2*Moyenne){
+			value += (data[j + 1] << 8) + data[j]  //accumulator
+			j +=2
+		}
 		let point = new Point(device)
 			.stringField('device', device) //to be replaced by mesure stage(reveil, second)
-			.floatField('mesure', (data[i + 1] << 8) + data[i])
-			.timestamp(1e3* (t+(i*ecart/2))) //timestamp to nanosecs
+			.floatField('mesure', value/Moyenne)
+			.timestamp(1e3* (t+(i*ecart/(2*Moyenne)))) //timestamp to nanosecs
 		points.push(point)
 	}
 	

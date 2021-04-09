@@ -18,7 +18,7 @@
  forever restart /server_esp/index.js
  forever stop /server_esp/index.js
 ```
-> Can also uses nodemon
+> Can also use nodemon
 ```shell
  npm start
 ```

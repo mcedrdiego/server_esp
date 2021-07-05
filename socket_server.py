@@ -18,7 +18,7 @@ class Server(object):
 	async def ws_handler(self, websocket, path):
 		msg = await websocket.recv()
 		for byte in msg:
-			sys.stdout.write(byte)
+			sys.stdout.write(str(byte))
 		sys.stdout.flush()
 		sys.stderr.flush()
 		

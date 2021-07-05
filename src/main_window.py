@@ -24,14 +24,14 @@ class GraphScreen(pg.PlotWidget):
         self.showGrid(x=True,y=True)
         self.pen_ch1 = pg.mkPen(color="b", width=1)
         # self.setXRange(0,1, padding=0.02)
-        self.setXRange(-10, 0)
+        self.setXRange(-.1, 0)
         # self.setYRange(0, 5, padding=0.02)
         self.chunkSize = 1000
         self.data = np.empty((self.chunkSize+1, 2))
         self.ptr = 0
         self.curves = []
         self.startTime = pg.ptime.time()
-        self.maxChunks = 10
+        self.maxChunks = 5
     
     def plot_ch(self, x, y, ch=1):
         self.data_line_ch = self.plot(x, y, pen = self.pen_ch1)

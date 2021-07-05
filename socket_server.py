@@ -16,10 +16,10 @@ class Server(object):
 	
 	async def ws_handler(self, websocket, path):
 		msg = await websocket.recv()
-		print(f'< {msg}')
+		print(type(msg)
 		
-		await websocket.send(msg)
-		print(f'> {msg}')
+		#await websocket.send(msg)
+		"print(f'> {msg}')
 		
 if __name__ == '__main__':
 	server = Server(host='172.31.0.160', port=8080)

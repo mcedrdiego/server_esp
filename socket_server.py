@@ -16,7 +16,8 @@ class Server(object):
 	
 	async def ws_handler(self, websocket, path):
 		msg = await websocket.recv()
-		print(msg.decode())
+		for byte in msg:
+			print(byte)
 		
 		#await websocket.send(msg)
 		#print(f'> {msg}')

@@ -59,7 +59,7 @@ class GraphScreen(pg.PlotWidget):
 
     def update(self, s):
     	data = s.replace('[', '').replace(']','').strip(',').split()
-    	for i in len(data):
+    	for i in range(len(data)):
     		self.update_ch(int(data[i]))
     
 

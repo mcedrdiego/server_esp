@@ -60,10 +60,8 @@ class GraphScreen(pg.PlotWidget):
     def update(self, s):
     	data = s.replace('[', '').replace(']','').strip(',').split()
     	for i in len(data):
-    		self.update_ch(int(data[i])
+    		self.update_ch(int(data[i]))
     
-    # def update_ch(self, x, y, ch = 1):
-    #     self.data_line_ch.setData(x, y)
 
 class StatsBox(QGroupBox):
     def __init__(self) -> None: # may need change

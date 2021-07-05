@@ -24,7 +24,7 @@ class Controller:
     
     def message(self, s):
         self.main_window.control_panel.raw_data_panel.txt_box.appendPlainText(s)
-        self.main_window.screen.update(s)
+        
 
     def start_process(self):
         if self.p is None:  # No process running.
@@ -53,7 +53,8 @@ class Controller:
     def handle_stdout(self):
         data = self.p.readAllStandardOutput()
         stdout = bytes(data).decode("utf8")
-        self.message(stdout)
+        self.message(">:"+stdout)
+        self.main_window.screen.update(stdout)
 
     def handle_state(self, state):
         states = {

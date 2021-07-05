@@ -53,7 +53,7 @@ class Controller:
     def handle_stdout(self):
         data = self.p.readAllStandardOutput()
         stdout = bytes(data).decode("utf8")
-        self.message(">:"+stdout)
+        # self.message(">:"+stdout)
         self.main_window.screen.update(stdout)
 
     def handle_state(self, state):

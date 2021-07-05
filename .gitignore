@@ -6,3 +6,6 @@ env.js
 
 # ignore all  log files
 *.log
+
+# others
+*.save

@@ -1,3 +1,4 @@
+import sys
 import asyncio
 import websockets
 
@@ -17,7 +18,9 @@ class Server(object):
 	async def ws_handler(self, websocket, path):
 		msg = await websocket.recv()
 		for byte in msg:
-			print(byte)
+			sys.stdout.write(byte)
+		sys.stdout.flush()
+		sys.stderr.flush()
 		
 		#await websocket.send(msg)
 		#print(f'> {msg}')

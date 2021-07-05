@@ -54,7 +54,7 @@ class Controller:
         data = self.p.readAllStandardOutput()
         stdout = bytes(data).decode("utf8")
         self.message(">:"+stdout)
-        self.main_window.screen.update(stdout)
+        #self.main_window.screen.update(stdout)
 
     def handle_state(self, state):
         states = {

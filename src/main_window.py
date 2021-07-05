@@ -36,7 +36,7 @@ class GraphScreen(pg.PlotWidget):
     def plot_ch(self, x, y, ch=1):
         self.data_line_ch = self.plot(x, y, pen = self.pen_ch1)
 
-    def update_ch(self,s):
+    def update_ch(self, d):
         now = pg.ptime.time()
         for c in self.curves:
             c.setPos(-(now-self.startTime), 0)
@@ -53,12 +53,14 @@ class GraphScreen(pg.PlotWidget):
         else:
             curve = self.curves[-1]
         self.data[i+1,0] = now - self.startTime
-        self.data[i+1,1] = int(s) # adds only one point but the ESP32 sends 30k at once 
+        self.data[i+1,1] = d # adds only one point but the ESP32 sends 30k at once 
         curve.setData(x=self.data[:i+2, 0], y=self.data[:i+2, 1]) # plots all available
         self.ptr += 1
 
     def update(self, s):
-        self.update_ch(s)
+    	data = s.replace('[', '').replace(']','').strip(',').split()
+    	for i in len(data):
+    		self.update_ch(int(data[i])
     
     # def update_ch(self, x, y, ch = 1):
     #     self.data_line_ch.setData(x, y)

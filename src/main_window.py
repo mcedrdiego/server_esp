@@ -30,7 +30,7 @@ class GraphScreen(pg.PlotWidget):
 		self.data = np.empty((self.chunkSize+1, 2))
 		self.ptr = 0
 		self.curves = []
-		# self.startTime = pg.ptime.time()
+		self.startTime = pg.ptime.time()
 		self.maxChunks = 5
 	
 	def plot_ch(self, x, y, ch=1):
@@ -58,7 +58,6 @@ class GraphScreen(pg.PlotWidget):
 		self.ptr += 1
 
 	def update(self, s):
-		self.startTime = pg.ptime.time()
 		data = s.replace('[', '').replace(']','').strip(',').replace(',','').split()
 		for i in range(len(data)):
 			self.update_ch(int(data[i]))

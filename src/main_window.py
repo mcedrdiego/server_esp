@@ -24,8 +24,8 @@ class GraphScreen(pg.PlotWidget):
 		self.showGrid(x=True,y=True)
 		pen_ch1 = pg.mkPen(color="b", width=1)
 		# self.setXRange(0,1, padding=0.02)
-		self.setXRange(-100, 0)
-		self.maxSize = 1000
+		self.setXRange(-1000, 0)
+		self.maxSize = 5000
 		self.y = []
 		self.x =  list(range(-self.maxSize, 0))
 		self.counter = 0

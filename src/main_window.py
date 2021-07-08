@@ -1,4 +1,5 @@
 #!/home/apehooman/.virtualenvs/env/bin/python
+import time
 from PySide6.QtWidgets import (
     QMainWindow, 
     QPushButton, 
@@ -24,7 +25,7 @@ class GraphScreen(pg.PlotWidget):
         self.showGrid(x=True,y=True)
         self.pen_ch1 = pg.mkPen(color="b", width=1)
         # self.setXRange(0,1, padding=0.02)
-        self.setXRange(-.1, 0)
+        self.setXRange(-.4, 0)
         # self.setYRange(0, 5, padding=0.02)
         self.chunkSize = 1000
         self.data = np.empty((self.chunkSize+1, 2))
@@ -60,8 +61,7 @@ class GraphScreen(pg.PlotWidget):
     def update(self, s):
     	data = s.replace('[', '').replace(']','').strip(',').replace(',','').split()
     	for i in range(len(data)):
-        	self.update_ch(int(data[i]))
-    
+        	self.update_ch(int(data[i]))    
 
 class StatsBox(QGroupBox):
     def __init__(self) -> None: # may need change

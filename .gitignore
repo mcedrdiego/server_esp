@@ -11,3 +11,4 @@ env.js
 *.save
 
 src/__pycache__/
+.vscode

@@ -22,41 +22,24 @@ class GraphScreen(pg.PlotWidget):
 		self.setLabel("left", "Current" ,"mA", **styles)
 		self.setLabel("bottom", "Time" ,"s", **styles)
 		self.showGrid(x=True,y=True)
-		self.pen_ch1 = pg.mkPen(color="b", width=1)
+		pen_ch1 = pg.mkPen(color="b", width=1)
 		# self.setXRange(0,1, padding=0.02)
-		self.setXRange(-.4, 0)
-		# self.setYRange(0, 5, padding=0.02)
-		self.chunkSize = 1000
-		self.data = np.empty((self.chunkSize+1, 2))
-		self.ptr = 0
-		self.curves = []
-		self.startTime = pg.ptime.time()
-		self.maxChunks = 5
-	
-	def plot_ch(self, x, y, ch=1):
-		self.data_line_ch = self.plot(x, y, pen = self.pen_ch1)
+		self.setXRange(-100, 0)
+		self.maxSize = 1000
+		self.y = []
+		self.x =  list(range(-self.maxSize, 0))
+		self.counter = 0
+		self.data_plot = self.plot(pen = pen_ch1)
 
 	def update_ch(self, d):
-		now = pg.ptime.time()
-		for c in self.curves:
-			c.setPos(-(now-self.startTime), 0)
-		i = self.ptr % self.chunkSize
-		if i == 0:
-			curve = self.plot(pen=self.pen_ch1)
-			self.curves.append(curve)
-			last = self.data[-1]
-			self.data = np.empty((self.chunkSize+1, 2))
-			self.data[0] = last
-			while len(self.curves) > self.maxChunks:
-				c = self.curves.pop(0)
-				self.removeItem(c)
+		if self.counter < self.maxSize:
+			self.y.append(d)
+			self.data_plot.setData(list(range(-len(self.y), 0)), self.y)
 		else:
-			curve = self.curves[-1]
-		self.data[i+1,0] = now - self.startTime
-		self.data[i+1,1] = d # adds only one point but the ESP32 sends 30k at once 
-		curve.setData(x=self.data[:i+2, 0], y=self.data[:i+2, 1]) # plots all available
-		self.ptr += 1
-
+			self.y.pop(0)
+			self.y.append(d)
+			self.data_plot.setData(self.x, self.y)
+			
 	def update(self, s):
 		data = s.replace('[', '').replace(']','').strip(',').replace(',','').split()
 		for i in range(len(data)):

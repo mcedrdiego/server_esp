@@ -1,4 +1,4 @@
-import time
+
 from PySide6.QtWidgets import (
 	QMainWindow, 
 	QPushButton, 
@@ -61,7 +61,6 @@ class GraphScreen(pg.PlotWidget):
 		data = s.replace('[', '').replace(']','').strip(',').replace(',','').split()
 		for i in range(len(data)):
 			self.update_ch(int(data[i]))
-			time.sleep(.3)
 
 class StatsBox(QGroupBox):
 	def __init__(self) -> None: # may need change

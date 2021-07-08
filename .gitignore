@@ -10,3 +10,4 @@ env.js
 # others
 *.save
 
+src/__pycache__
